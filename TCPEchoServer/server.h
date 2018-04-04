@@ -27,7 +27,6 @@ class Server
 {
 public:
 	Server();
-	Server(char ip[]);
 	~Server();
 	bool start();
 	void startThreadPorts();
@@ -42,6 +41,8 @@ public:
 	void printClientPortAndIP(SOCKET clientInstance);
 	int roundRobinGetNextPort();
 private:
+	static const char SERVER_IP[]; //default server ip (localhost)
+	static const string REGEX_GET;
 	FILE * logFile;
 	int iResult;
 	WSADATA wsaData;

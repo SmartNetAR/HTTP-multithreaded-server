@@ -1,12 +1,7 @@
 #include "server.h"
 
-Server::Server(char ip[])
-{
-	//SERVER_IP = ip; //default server ip (localhost)
-	//static const char SERVER_IP[] = "127.0.0.1"; //default server ip (localhost)
-	//SERVER_IP = "127.0.0.1"; //default server ip (localhost)
-	//REGEX_GET = R"((GET)\s\/(.+)\s(HTTP.+))";
-}
+const char Server::SERVER_IP[] = "127.0.0.1"; //default server ip (localhost)
+const string Server::REGEX_GET = R"((GET)\s\/(.+)\s(HTTP.+))";
 
 Server::Server()
 {
@@ -41,6 +36,7 @@ bool Server::start()
 	{
 		port += i;
 		portThreads.push_back(std::thread(&Server::startThreadPorts, this));//create one thread per one port
+		cout << " " << endl;
 	}
 	//std::thread t((&viewWindow::refreshWindow, render, playerRect, backTexture, playerTexture));
 
@@ -58,7 +54,7 @@ bool Server::start()
 
 void Server::startThreadPorts()
 {
-	static const char SERVER_IP[] = "127.0.0.1"; //default server ip (localhost)
+	//static const char SERVER_IP[] = "127.0.0.1"; //default server ip (localhost)
 	
 	int iResult; //error handling
 				 //structure to hold socket data
@@ -86,7 +82,7 @@ void Server::startThreadPorts()
 	if (listen(listenSock, SOMAXCONN) == SOCKET_ERROR)
 		wprintf(L"listen function failed with error: %d\n", WSAGetLastError());
 
-	cout << "Thread with id " << GetCurrentThreadId() << "is on port: " << port << endl << endl;
+	cout << "Thread with id " << GetCurrentThreadId() << " is on port: " << port << endl << endl;
 
 	int clientNum = 0;
 	int breakAfterServed = 100; //this is the number of clients that will be served by the server
@@ -118,7 +114,7 @@ void Server::startThreadPorts()
 			g_lockPrint.unlock();*/
 			std::thread t(&Server::servClient, this);
 			t.detach(); //this will allow the thread run on its own
-			cout << "Client: " << clientNum++ << "on port " << port << endl;
+			cout << "Client: " << clientNum++ << "on port " << port << endl << endl;
 
 
 		}
@@ -297,7 +293,7 @@ void Server::getClientResource(SOCKET clientInstance)
 		}
 		else if (recvMsgSize == 0)
 		{
-			//printf("Connection closed\n");
+			printf("Connection closed\n");
 		}
 		else
 		{
