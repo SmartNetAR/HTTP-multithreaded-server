@@ -3,19 +3,21 @@
 //mainthreadsock define the entry point for console application
 #define WIN32_LEAN_AND_MEAN
 
-#include<ws2tcpip.h>
-#include<winsock2.h>
-#include<process.h>
-#include<memory>
-#include<thread>
-#include<stdio.h>
-#include<iostream>
-#include<string>
-#include<regex>
-#include<vector>
-#include<mutex>
-#include<chrono>
+#include <ws2tcpip.h>
+#include <winsock2.h>
+#include <process.h>
+#include <memory>
+#include <thread>
+#include <stdio.h>
+#include <iostream>
+#include <string>
+#include <regex>
+#include <vector>
+#include <mutex>
+#include <chrono>
 #include <fstream>
+
+#include "ServerAPI.h"
 
 // Need to link with Ws2_32.lib
 #pragma comment (lib, "Ws2_32.lib")

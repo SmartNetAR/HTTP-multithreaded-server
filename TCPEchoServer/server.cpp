@@ -1,6 +1,7 @@
 #include "server.h"
 
-const char Server::SERVER_IP[] = "127.0.0.1"; //default server ip (localhost)
+const char Server::SERVER_IP[] = "127.0.0.1"; //default server ip (localhost) para testear local
+//const char Server::SERVER_IP[] = "0.0.0.0"; //default server ip (localhost) para testear arriba
 const string Server::REGEX_GET = R"((GET)\s\/(.+)\s(HTTP.+))";
 
 Server::Server()
@@ -142,7 +143,7 @@ void Server::servClient(SOCKET client, int port)
 
 	if (port == initialPort) //2000
 	{
-		//cout << "The port is 2000 need to send them next port" << endl;
+		//cout << "The port is " << initialPort << " need to send them next port" << endl;
 		Server::putClientOnDiferrentPort(client, roundRobinGetNextPort(port));
 	}
 	else
@@ -266,7 +267,7 @@ void Server::getClientResource(SOCKET client)
 			//printBuffer(buffer, recvMsgSize);
 
 			///testing redirections TO CONSTRUCT API APAAA
-			int stringPos = filePath.find("apaaa/", 0); // Ex: APAAA/animals/1
+			int stringPos = filePath.find("api/", 0); // Ex: api/APAAA/animals/1
 
 			if (stringPos == -1)
 			{
@@ -274,14 +275,14 @@ void Server::getClientResource(SOCKET client)
 			}
 			else
 			{
-				string request = filePath.substr(6); // Ex: animals/1
-				int dashPos = request.find("/", 0); // Ex: Pos 8
-				string table = request.substr(0, dashPos); // Ex: animals
-				string parameter = request.substr(dashPos + 1); // Ex: 1
-				cout << "request: " << request << endl;
-				cout << "dashPos: " << dashPos << endl;
-				cout << "table: " << table << endl;
-				cout << "parameter: " << parameter << endl;
+				string request		= filePath.substr(4); // Ex: APAAA/animals/1
+				
+				ServerAPI * api = new ServerAPI(request);
+				cout << "NOMBRE API:" << api->getName() << endl;
+				cout << "NOMBRE SERVICIO:" << api->getService() << endl;
+				cout << "REQUEST COMPLETA:" << api->getRequest() << endl;
+
+				JSONSerializer * jsonSerializer = new JSONSerializer(); //--> en api? ver tema deserialización
 			}
 			//endtesting redirections TO CONSTRUCT API APAAA
 
